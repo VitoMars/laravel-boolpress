@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Post;
 
 class PostController extends Controller
@@ -26,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.posts.create");
     }
 
     /**
@@ -37,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $form_data = $request->all();
+
+        $new_post = new Post();
+        $new_post->fill($form_data);
+
+        // Titolo: il mio post
+        // Slug: il-mio-post
+
+        $slug = Str::slug($new_post->title);
+        $new_post->slug = $slug;
+        $new_post->save();
+
+        return redirect()->route("admin.posts.index")->with("inserted", "Il post è stato correttamente salvato");
     }
 
     /**
@@ -46,9 +59,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-        $post = Post::where("slug", $slug)->first();
+        $post = Post::where("id", $id)->first();
         if (!$post) {
             abort(404);
         }
