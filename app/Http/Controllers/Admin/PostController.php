@@ -46,7 +46,19 @@ class PostController extends Controller
         // Titolo: il mio post
         // Slug: il-mio-post
 
-        $slug = Str::slug($new_post->title);
+        $slug = Str::slug($new_post->title, "-");
+        // $slug_base = $slug;
+
+        $slug_presente = Post::where("slug", $slug)->first();
+
+        $contatore = 1;
+
+        while ($slug_presente) {
+            $slug = $slug . "-" . $contatore;
+            $slug_presente = Post::where("slug", $slug)->first();
+            $contatore++;
+        }
+
         $new_post->slug = $slug;
         $new_post->save();
 
