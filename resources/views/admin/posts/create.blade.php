@@ -7,7 +7,7 @@
              <h1>Creazione nuovo post</h1>
             
              {{-- Un modo per visualizzare un errore quando non si digita nulla nei campi --}}
-             @if ($errors->any())
+             {{-- @if ($errors->any())
              <div class="alert alert-danger">
                  <ul>
                      @foreach ($errors->all() as $error)
@@ -15,7 +15,7 @@
                      @endforeach
                  </ul>
              </div>
-            @endif
+            @endif --}}
 
              <form action="{{ route("admin.posts.store") }}" method="post">
                @csrf
