@@ -43,7 +43,8 @@ class PostController extends Controller
         // Per prima cosa valido i dati che arrivano dal form
         $request->validate([
             "title" => "required",
-            "content" => "required"
+            "content" => "required",
+            "category_id" => "nullable|exists:categories,id"
         ]);
 
         $form_data = $request->all();
@@ -100,7 +101,15 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view("admin.posts.edit", compact("post"));
+        $categories = Category::all();
+
+        // Quello che mi crea
+        // $data = [
+        //     "post" => $post,
+        //     "categories" => $categories
+        // ];
+
+        return view("admin.posts.edit", compact("post", "categories"));
     }
 
     /**
