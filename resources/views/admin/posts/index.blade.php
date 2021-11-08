@@ -28,6 +28,7 @@
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Slug</th>
+            <th scope="col">Category</th>
             <th scope="col">Actions</th>
          </tr>
       </thead>
@@ -38,12 +39,20 @@
                <td scope="row"> {{ $post["id"] }}</td>
                <td>{{ $post["title"] }}</td>
                <td>{{ $post["slug"] }}</td>
+               <td>
+                  @if ($post["category"])
+                      {{ $post["category"]["name"] }}
+                  @endif
+               </td>
+               {{-- <td>{{ $post["category"] }}</td> --}}
                {{-- Details --}}
-               <td><a href="{{ route("admin.posts.show", $post["id"]) }}" class="btn btn-info">Details</a></td>
+               <td>
+               <a href="{{ route("admin.posts.show", $post["id"]) }}" class="btn btn-info">Details</a>
                {{-- Modify --}}
-               <td><a href="{{ route("admin.posts.edit", $post["id"]) }}" class="btn btn-warning">Modify</a></td>
+               <a href="{{ route("admin.posts.edit", $post["id"]) }}" class="btn btn-warning">Modify</a>
                {{-- Delete --}}
-               <td><a class="btn btn-danger" data-toggle="modal" data-target="#deletePost{{$post->id}}" href="#deletePost">Delete</a></td>
+               <a class="btn btn-danger" data-toggle="modal" data-target="#deletePost{{$post->id}}" href="#deletePost">Delete</a>
+               </td>
                {{-- <td>
                   <form action="{{ route("admin.posts.destroy", $post["id"]) }}" method="post" class="d-inline-block">
                      @csrf
