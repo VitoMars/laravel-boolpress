@@ -58,11 +58,10 @@
                {{-- Tag --}}
                <div class="form-group">
                 <p>Seleziona i tag:</p>
-
                 @foreach ($tags as $tag)
                     <div class="form-check form-check-inline">
-                        <input id="tag1" type="checkbox" name="tags[]" class="form-check-input">
-                        <label for="tag1" class="form-check-label">Test Check</label>
+                        <input id="{{ 'tag' . $tag["id"] }}" value="{{ $tag["id"] }}" type="checkbox" name="tags[]" class="form-check-input">
+                        <label for="{{ 'tag' . $tag["id"] }}" class="form-check-label">{{ $tag["name"] }}</label>
                     </div>
                 @endforeach
                </div>
