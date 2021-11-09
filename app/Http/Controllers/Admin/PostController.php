@@ -107,6 +107,7 @@ class PostController extends Controller
         }
 
         $categories = Category::all();
+        $tags = Tag::all();
 
         // Quello che mi crea
         // $data = [
@@ -114,7 +115,7 @@ class PostController extends Controller
         //     "categories" => $categories
         // ];
 
-        return view("admin.posts.edit", compact("post", "categories"));
+        return view("admin.posts.edit", compact("post", "categories", "tags"));
     }
 
     /**
@@ -128,7 +129,9 @@ class PostController extends Controller
     {
         $request->validate([
             "title" => "required",
-            "content" => "required"
+            "content" => "required",
+            "category_id" => "nullable|exists:categories,id",
+            "tags" => "exists:tags,id"
         ]);
 
         $form_data = $request->all();
@@ -153,6 +156,12 @@ class PostController extends Controller
         };
 
         $post->update($form_data);
+
+        if (array_key_exists("tags", $form_data)) {
+            $post->tags()->sync($form_data["tags"]);
+        } else {
+            $post->tags()->sync([]);
+        }
 
         return redirect()->route("admin.posts.index")->with("updated", "Post correttamente aggiornato");
     }
