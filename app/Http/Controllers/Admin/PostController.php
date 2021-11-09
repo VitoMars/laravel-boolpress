@@ -46,7 +46,8 @@ class PostController extends Controller
         $request->validate([
             "title" => "required",
             "content" => "required",
-            "category_id" => "nullable|exists:categories,id"
+            "category_id" => "nullable|exists:categories,id",
+            "tags" => "exists:tags,id"
         ]);
 
         $form_data = $request->all();
@@ -72,6 +73,8 @@ class PostController extends Controller
 
         $new_post->slug = $slug;
         $new_post->save();
+
+        $new_post->tags()->attach($form_data["tags"]);
 
         return redirect()->route("admin.posts.index")->with("inserted", "Il post è stato correttamente salvato");
     }
