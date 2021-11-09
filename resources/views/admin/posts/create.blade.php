@@ -24,7 +24,7 @@
                {{-- Titolo --}}
                <div class="form-group">
                   <label for="title">Titolo</label>
-                  <input type="text" name="title" class="form-control @error("title") is-invalid @enderror" value="{{ old("title") }}">
+                  <input type="text" id="title" name="title" class="form-control @error("title") is-invalid @enderror" value="{{ old("title") }}">
                   @error('title')
                       <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -53,6 +53,18 @@
                     @error('category_id')
                       <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
+               </div>
+
+               {{-- Tag --}}
+               <div class="form-group">
+                <p>Seleziona i tag:</p>
+
+                @foreach ($tags as $tag)
+                    <div class="form-check form-check-inline">
+                        <input id="tag1" type="checkbox" name="tags[]" class="form-check-input">
+                        <label for="tag1" class="form-check-label">Test Check</label>
+                    </div>
+                @endforeach
                </div>
 
                {{-- Bottone Crea Post --}}
