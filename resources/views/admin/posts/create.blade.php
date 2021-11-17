@@ -17,7 +17,7 @@
              </div>
             @endif --}}
 
-             <form action="{{ route("admin.posts.store") }}" method="post">
+             <form action="{{ route("admin.posts.store") }}" method="post" enctype="multipart/form-data">
                @csrf
                @method("POST")
 
@@ -53,6 +53,15 @@
                     @error('category_id')
                       <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
+               </div>
+
+               {{-- Upload file --}}
+               <div class="form-group">
+                   <label for="" class="d-block" >Immagine di copertina</label>
+                   <input type="file" id="image" name="image" class="@error("image") is-invalid @enderror">
+                   @error('image')
+                       <div class="alert alert-danger">{{ $message }}</div>
+                   @enderror
                </div>
 
                {{-- Tag --}}

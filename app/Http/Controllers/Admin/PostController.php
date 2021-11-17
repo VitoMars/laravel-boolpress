@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Category;
@@ -47,12 +48,23 @@ class PostController extends Controller
             "title" => "required",
             "content" => "required",
             "category_id" => "nullable|exists:categories,id",
-            "tags" => "exists:tags,id"
+            "tags" => "exists:tags,id",
+            // "image" => "nullable|image"
         ]);
 
         $form_data = $request->all();
 
         $new_post = new Post();
+
+        // Verifico se è stata caricata un'immagine
+        if (array_key_exists("image", $form_data)) {
+            // Salviamo l'immagine e recuperiamo il percorso
+            $cover_path = Storage::put("post_covers", $form_data["image"]);
+            // Aggiungiamo all'array che viene usato nella funzione fill
+            // la chiave cover che contiene il percorso relativo dell'immagine caricata a partire da public/storage
+            $form_data["cover"] = $cover_path;
+        }
+
         $new_post->fill($form_data);
 
         // Titolo: il mio post
