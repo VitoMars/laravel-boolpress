@@ -5,7 +5,7 @@
        <div class="row">
           <div class="col-12">
              <h1>Modifica post</h1>
-             <form action="{{ route("admin.posts.update", $post["id"]) }}" method="post">
+             <form action="{{ route("admin.posts.update", $post["id"]) }}" method="post" enctype="multipart/form-data">
                @csrf
                @method("PUT")
 
@@ -42,6 +42,20 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
                </div>
+               
+               {{-- Upload file --}}
+               <div class="form-group">
+                  @if ($post->cover)
+                     <p>Immagine di copertina presente:</p>
+                     <img class="mb-3" src="{{ asset("storage/" . $post["cover"]) }}" alt="">
+                     @else
+                        <p>Immagine di copertina non presente!</p>
+                  @endif
+                  <input type="file" id="image" name="image" class="@error("image") is-invalid @enderror">
+                  @error('image')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+              </div>
 
                {{-- Tag --}}
                <div class="form-group">

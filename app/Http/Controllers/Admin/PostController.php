@@ -143,7 +143,8 @@ class PostController extends Controller
             "title" => "required",
             "content" => "required",
             "category_id" => "nullable|exists:categories,id",
-            "tags" => "exists:tags,id"
+            "tags" => "exists:tags,id",
+            // "image" => "nullable|image"
         ]);
 
         $form_data = $request->all();
@@ -166,6 +167,14 @@ class PostController extends Controller
 
             $form_data["slug"] = $slug;
         };
+
+        // Verifico se è stata caricata un immagine
+        if (array_key_exists("image", $form_data)) {
+            // Salvo l'immagine e recopero il path
+            Storage::delete($post->cover);
+            $cover_path = Storage::put("post_covers", $form_data["image"]);
+            $form_data["cover"] = $cover_path;
+        }
 
         $post->update($form_data);
 
