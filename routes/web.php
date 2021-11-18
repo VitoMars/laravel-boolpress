@@ -20,6 +20,10 @@ Route::get('/', "HomeController@index")->name("index");
 // Rotta che gestirà i post per l'utente generico
 Route::resource("/posts", "PostController");
 
+Route::get("/contact", "HomeController@contact")->name("contacts");
+Route::post("/contact", "HomeController@handleContactForm")->name("contacts.send");
+Route::get("/thank-you", "HomeController@thankYou")->name("contacts.thank-you");
+
 // Serie di rotte che gestisce tutto il meccanismo di autenticazione
 Auth::routes();
 
